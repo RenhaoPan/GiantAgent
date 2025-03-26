@@ -1,0 +1,2 @@
+# GiantAgent
+GiantAgent是Giant的私人Agent智能体
