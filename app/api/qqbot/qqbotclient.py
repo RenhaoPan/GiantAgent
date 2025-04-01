@@ -175,7 +175,7 @@ async def group_Email(api: BotAPI, message: GroupMessage, params=None):
             group_openid=message.group_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"已发送{jm_code}.pdf至{message.author.username}的邮箱"
+            content=f"已发送{jm_code}.pdf至您的邮箱"
         )
 
     return True
