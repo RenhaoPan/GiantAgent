@@ -9,7 +9,7 @@ from app.core.domain.jmserver import JMServer, init_JMServer
 from common import EmailConfig
 
 _log = logging.get_logger()
-
+@Commands("/getpdf")
 async def getPDF(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
     # 第一种用reply发送消息
@@ -36,7 +36,7 @@ async def getPDF(api: BotAPI, message: C2CMessage, params=None):
     # )
 
     return True
-
+@Commands("/email")
 async def Email(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
     # 第一种用reply发送消息
