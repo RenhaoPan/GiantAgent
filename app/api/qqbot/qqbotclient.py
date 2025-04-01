@@ -77,7 +77,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
             openid=message.author.user_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"已发送至您的邮箱"
+            content=f"已发送{jm_code}.pdf至您的邮箱"
         )
 
     return True
