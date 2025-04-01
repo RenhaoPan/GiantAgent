@@ -29,4 +29,4 @@ pip install -r requirements.txt
 ## 启动说明
 在服务器上运行时，可以通过以下命令指定环境为`remote`：
 
-python application.py --env remote
+python app/application.py --env remote
