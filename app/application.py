@@ -1,8 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # 添加当前目录到sys.path
+
 import botpy
 import argparse
 from config_manager import GlobalConfig
 from app.api.qqbot.qqbotclient import QQBotClient
-
 
 if __name__ == "__main__":
     # 初始化配置（在应用启动时调用）

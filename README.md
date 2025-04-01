@@ -24,5 +24,9 @@ GiantAgent是Giant的私人Agent智能体
 因为JMServer会被识别为有害库建议从源代码库安装
 pip install git+https://github.com/hect0x7/JMComic-Crawler-Python
 
-
 pip install -r requirements.txt
+
+## 启动说明
+在服务器上运行时，可以通过以下命令指定环境为`remote`：
+
+python application.py --env remote
