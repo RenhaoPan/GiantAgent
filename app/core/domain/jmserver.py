@@ -3,9 +3,11 @@ import os
 from common import EmailConfig
 from ...config_manager import GlobalConfig
 
+
 class JMServer:
     _option = None
     _option_loaded = False
+
     @classmethod
     def load_config(cls, env: str = "local"):
         if cls._option_loaded:
@@ -24,7 +26,6 @@ class JMServer:
         except FileNotFoundError:
             raise FileNotFoundError("JMComic config file not found")
 
-
     @classmethod
     def download_photo(cls, comic_id):
         try:
@@ -34,8 +35,14 @@ class JMServer:
         except Exception as e:
             raise Exception(f"Failed to download photo: {e}")
 
+    @classmethod
+    def get_download_path(cls):
+        return JMServer._option.dir_rule.base_dir
+
+
 def init_JMServer(env: str):
     JMServer.load_config(env)
+
 
 if __name__ == "__main__":
     init_JMServer("local")
