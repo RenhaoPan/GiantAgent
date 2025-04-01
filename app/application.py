@@ -16,6 +16,7 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--env", help="运行环境", choices=["local", "remote"], default="local")
     args = parser.parse_args()
     GlobalConfig.load_config(args.env)
+    print(f"Loaded config for environment: {GlobalConfig.get('runtime_env')}")  # 添加日志
 
     intents = botpy.Intents(public_messages=True)
     client = QQBotClient(intents=intents)

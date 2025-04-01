@@ -9,6 +9,7 @@ from app.core.domain.jmserver import JMServer, init_JMServer
 from common import EmailConfig
 
 _log = logging.get_logger()
+
 @Commands("/getpdf")
 async def getPDF(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
@@ -36,6 +37,7 @@ async def getPDF(api: BotAPI, message: C2CMessage, params=None):
     # )
 
     return True
+
 @Commands("/email")
 async def Email(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
@@ -45,7 +47,6 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
     param_list = params.split(" ")
     jm_code = param_list[0]
     msg_to = param_list[1]
-    GlobalConfig.load_config(os.getenv('env', 'local'))
     try:
         await message._api.post_c2c_message(
             openid=message.author.user_openid,
