@@ -4,19 +4,18 @@ from botpy import logging, BotAPI
 from botpy.message import Message, C2CMessage
 
 from botpy.ext.command_util import Commands
-from ...config_manager import GlobalConfig
-from ...core.domain.jmserver import JMServer, init_JMServer
+from app.config_manager import GlobalConfig  # 修改为绝对导入
+from app.core.domain.jmserver import JMServer, init_JMServer
 from common import EmailConfig
 
 _log = logging.get_logger()
 
-@Commands("/getpdf")
 async def getPDF(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
     # 第一种用reply发送消息
     await message._api.post_c2c_message(
         openid=message.author.user_openid,
-        msg_type=0, # 0表示文本类型
+        msg_type=0,  # 0表示文本类型
         msg_id=message.id,
         content="暂不支持pdf，请尝试Email"
     )
@@ -38,7 +37,6 @@ async def getPDF(api: BotAPI, message: C2CMessage, params=None):
 
     return True
 
-@Commands("/email")
 async def Email(api: BotAPI, message: C2CMessage, params=None):
     _log.info(params)
     # 第一种用reply发送消息
@@ -78,13 +76,14 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
         )
 
     return True
+
 class QQBotClient(botpy.Client):
     async def on_ready(self):
         _log.info(f"robot 「{self.robot.name}」 on_ready!")
 
     async def on_c2c_message_create(self, message: C2CMessage):
         # 注册指令handler
-        hadlers = [getPDF, Email]
-        for handler in hadlers:
+        handlers = [getPDF, Email]
+        for handler in handlers:
             if await handler(self.api, message=message):
                 return
