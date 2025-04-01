@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# 初始化 Conda
+source ~/.bashrc
+
 # 设置conda环境
 conda activate giantagent
 
