@@ -12,7 +12,7 @@ class JMServer:
             return
         config_file = {
             "local": "localjmopt.yml",
-            "remote": "remotejmopt.yml.yml"
+            "remote": "remotejmopt.yml"
         }.get(env, "localjmopt.yml")
 
         config_path = os.path.join(os.path.dirname(__file__), f'../../resources/{config_file}')
