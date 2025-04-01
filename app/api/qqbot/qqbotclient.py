@@ -47,6 +47,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
     param_list = params.split(" ")
     jm_code = param_list[0]
     msg_to = param_list[1]
+    GlobalConfig.load_config(os.getenv("ENV", "local"))
     try:
         await message._api.post_c2c_message(
             openid=message.author.user_openid,
@@ -62,6 +63,9 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
     email_glag = False
     try:
         email_info = GlobalConfig.get('smtp')
+        if email_info is None:
+            _log.error("SMTP configuration is missing")
+            raise ValueError("SMTP configuration is missing")
         econfig = EmailConfig(email_info['msg_from'], msg_to, email_info['password'])
         qq_email_postman = econfig.create_email_postman()
         email_glag = qq_email_postman.send(text="jmcomic finished !!!", subject=f"jmcomic {jm_code}",
@@ -73,7 +77,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
             openid=message.author.user_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"以发送至您的邮箱"
+            content=f"已发送至您的邮箱"
         )
 
     return True

@@ -8,14 +8,13 @@ from typing import Dict, Any
 class GlobalConfig:
     _config: Dict[str, Any] = None
     _config_loaded = False
-    _env = os.getenv("env", "local")
 
     def __new__(cls, *args, **kwargs):
         # 禁用实例化，强制使用类方法
         raise TypeError("GlobalConfig cannot be instantiated")
     @classmethod
     def load_config(cls, env: str = "local"):
-        if cls._config_loaded and env == cls._env:
+        if cls._config_loaded:
             return
 
         config_file = {
@@ -29,7 +28,6 @@ class GlobalConfig:
             with open(config_path, 'r', encoding='utf-8') as f:
                 cls._config = yaml.safe_load(f) or {}
                 cls._config["runtime_env"] = env
-                cls._env = env
                 cls._config_loaded = True
         except FileNotFoundError:
             raise RuntimeError(f"Config file {config_file} not found")
