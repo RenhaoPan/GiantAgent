@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+
+qqbot:
+  appid: "102738097"
+  secret: "pkfaVQMIEA62zwtqnkhecaYWUSQPONML"
+  token: "K0qNP541EOt1oBtHLnR5anyzTotBXrqk"
+
+smtp:
+  msg_from: "770391423@qq.com"
+  password: "ossztsmsqthfbbbh"
+  text: "jmcomic finished !!!"
+  file_path: /home/mydata/jmfile

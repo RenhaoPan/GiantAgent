@@ -1,0 +1,101 @@
+client:
+  cache: null
+  domain: []
+  impl: api
+  postman:
+    meta_data:
+      headers: null
+      impersonate: chrome110
+      proxies: {}
+    type: cffi
+  retry_times: 5
+dir_rule:
+  # base_dir: 根目录。
+  # 此配置也支持引用环境变量，例如
+  # base_dir: ${JM_DIR}/下载文件夹/
+  base_dir: /home/mydata/jmfile/
+  rule: Bd_Pname
+download:
+  cache: true
+  image:
+    decode: true
+    suffix: null
+  threading:
+    image: 30
+    photo: 12
+log: true
+
+# 插件的配置示例
+plugins:
+  after_album:
+#    - plugin: zip # 压缩文件插件
+#      kwargs:
+#        level: photo # 按照章节，一个章节一个压缩文件
+#        # level 也可以配成 album，表示一个本子对应一个压缩文件，该压缩文件会包含这个本子的所有章节
+#
+#        filename_rule: Ptitle # 压缩文件的命名规则
+#        # 请注意⚠ [https://github.com/hect0x7/JMComic-Crawler-Python/issues/223#issuecomment-2045227527]
+#        # filename_rule和level有对应关系
+#        # 如果level=[photo], filename_rule只能写Pxxx
+#        # 如果level=[album], filename_rule只能写Axxx
+#
+#        zip_dir: D:/jmcomic/zip/ # 压缩文件存放的文件夹
+#        delete_original_file: true # 压缩成功后，删除所有原文件和文件夹
+
+    # 删除重复文件插件
+    # 参考 → [https://github.com/hect0x7/JMComic-Crawler-Python/issues/244]
+    - plugin: delete_duplicated_files
+      kwargs:
+        # limit: 必填，表示对md5出现次数的限制
+        limit: 3
+        # 如果文件的md5的出现次数 >= limit，是否要删除
+        # 如果delete_original_file不配置，此插件只会打印信息，不会执行其他操作
+        # 如果limit=1, delete_original_file=true 效果会是删除所有文件
+        delete_original_file: true
+
+#    - plugin: send_qq_email # 发送qq邮件插件
+#      kwargs:
+#        msg_from: ${EMAIL} # 发件人
+#        msg_to: aaa@qq.com # 收件人
+#        password: dkjlakdjlkas # 发件人的授权码
+#        title: jmcomic # 标题
+#        content: jmcomic finished !!! # 内容
+
+#  main:
+#    - plugin: favorite_folder_export # 导出收藏夹插件
+#      log: false
+#      kwargs:
+#        zip_enable: true # 对导出文件进行压缩
+#        zip_filepath: ${JM_DOWNLOAD_DIR}/export.zip # 压缩文件路径
+#        zip_password: ${ZIP_PASSWORD} # 压缩密码
+
+  before_photo:
+    - plugin: skip_photo_with_few_images # 跳过下载章节图片数量过少的章节。一些韩漫的章节是公告，没有实际内容，就可以用该插件来跳过下载这些章节。
+      kwargs:
+        at_least_image_count: 2 # 至少要有多少张图，才下载此章节
+
+  after_photo:
+    # 把章节的所有图片合并为一个pdf的插件
+    # 使用前需要安装依赖库: [pip install img2pdf]
+    - plugin: img2pdf
+      kwargs:
+        pdf_dir: /home/mydata/jmfile/ # pdf存放文件夹
+        filename_rule: Pid # pdf命名规则，P代表photo, id代表使用photo.id也就是章节id
+
+    # img2pdf也支持合并整个本子，把上方的after_photo改为after_album即可。
+    # https://github.com/hect0x7/JMComic-Crawler-Python/discussions/258
+    # 配置到after_album时，需要修改filename_rule参数，不能写Pxx只能写Axx示例如下
+#    - plugin: img2pdf
+#      kwargs:
+#        pdf_dir: D:/projects/GiantAgent/test/ # pdf存放文件夹
+#        filename_rule: Aname # pdf命名规则，A代表album, name代表使用album.name也就是本子名称
+
+    # 插件来源：https://github.com/hect0x7/JMComic-Crawler-Python/pull/294
+    # long_img插件是把所有图片合并为一个png长图，效果和img2pdf类似
+#    - plugin: long_img
+#      kwargs:
+#        img_dir: D:/pdf/ # 长图存放文件夹
+#        filename_rule: Aname # 长图命名规则，同上
+
+
+version: '2.1'
