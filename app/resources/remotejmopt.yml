@@ -21,8 +21,8 @@ download:
     decode: true
     suffix: null
   threading:
-    image: 30
-    photo: 12
+    image: 8
+    photo: 4
 log: true
 
 # 插件的配置示例
