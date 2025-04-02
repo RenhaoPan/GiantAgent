@@ -154,23 +154,21 @@ async def group_Email(api: BotAPI, message: GroupMessage, params=None):
         await message._api.post_group_message(group_openid=message.group_openid, msg_type=0, msg_id=message.id,
                                               content=content)
 
-    email_glag = False
     try:
         email_info = GlobalConfig.get('smtp')
         econfig = EmailConfig(email_info['msg_from'], msg_to, email_info['password'])
         qq_email_postman = econfig.create_email_postman()
-        email_glag = qq_email_postman.send(text="jmcomic finished !!!", subject=f"jmcomic {jm_code}",
+        qq_email_postman.send(text="jmcomic finished !!!", subject=f"jmcomic {jm_code}",
                                            filepath=f"{email_info['file_path']}{jm_code}.zip")
     except Exception as e:
         _log.error(f"Send email failed", e)
 
-    if email_glag is True:
-        await message._api.post_group_message(
-            group_openid=message.group_openid,
-            msg_type=0,  # 0表示文本类型
-            msg_id=message.id,
-            content=f"已发送{jm_code}.zip至您的邮箱"
-        )
+    await message._api.post_group_message(
+        group_openid=message.group_openid,
+        msg_type=0,  # 0表示文本类型
+        msg_id=message.id,
+        content=f"已发送{jm_code}.zip至您的邮箱"
+    )
 
     return True
 
