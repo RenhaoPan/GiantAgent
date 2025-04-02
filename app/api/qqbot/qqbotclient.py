@@ -104,12 +104,6 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
     msg_to = param_list[1]
     GlobalConfig.load_config(os.getenv("ENV", "local"))
     try:
-        await message._api.post_c2c_message(
-            openid=message.author.user_openid,
-            msg_type=0,  # 0表示文本类型
-            msg_id=message.id,
-            content=f"正在下载资源 {jm_code}，请稍后"
-        )
         init_JMServer(GlobalConfig.get("runtime_env"))
         JMServer.download_photo(jm_code)
     except Exception as e:
@@ -124,7 +118,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
         econfig = EmailConfig(email_info['msg_from'], msg_to, email_info['password'])
         qq_email_postman = econfig.create_email_postman()
         email_glag = qq_email_postman.send(text="jmcomic finished !!!", subject=f"jmcomic {jm_code}",
-                                           filepath=f"{email_info['file_path']}{jm_code}.pdf")
+                                           filepath=f"{email_info['file_path']}{jm_code}.zip")
     except Exception as e:
         _log.error(f"Send email failed", e)
     if email_glag is True:
@@ -132,7 +126,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
             openid=message.author.user_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"已发送{jm_code}.pdf至{message.author.username}的邮箱"
+            content=f"已发送{jm_code}.pdf至您的邮箱"
         )
 
     return True
@@ -166,7 +160,7 @@ async def group_Email(api: BotAPI, message: GroupMessage, params=None):
         econfig = EmailConfig(email_info['msg_from'], msg_to, email_info['password'])
         qq_email_postman = econfig.create_email_postman()
         email_glag = qq_email_postman.send(text="jmcomic finished !!!", subject=f"jmcomic {jm_code}",
-                                           filepath=f"{email_info['file_path']}{jm_code}.pdf")
+                                           filepath=f"{email_info['file_path']}{jm_code}.zip")
     except Exception as e:
         _log.error(f"Send email failed", e)
 
@@ -175,7 +169,7 @@ async def group_Email(api: BotAPI, message: GroupMessage, params=None):
             group_openid=message.group_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"已发送{jm_code}.pdf至您的邮箱"
+            content=f"已发送{jm_code}.zip至您的邮箱"
         )
 
     return True
