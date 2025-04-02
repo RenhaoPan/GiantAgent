@@ -1,7 +1,8 @@
 import jmcomic
 import os
-from common import EmailConfig
-from ...config_manager import GlobalConfig
+from jmcomic import JmModuleConfig
+
+from app.core.plugins.jmplugin import LongImgBatchPlugin
 
 
 class JMServer:
@@ -21,6 +22,7 @@ class JMServer:
 
         try:
             if cls._option is None:
+                JmModuleConfig.register_plugin(LongImgBatchPlugin)  # 配置自定义batch长图插件
                 cls._option = jmcomic.create_option_by_file(config_path)
                 cls._option_loaded = True
         except FileNotFoundError:
@@ -30,7 +32,7 @@ class JMServer:
     def download_photo(cls, comic_id):
         try:
             download_path = cls._option.dir_rule.base_dir
-            if not os.path.exists(f"{download_path}/{comic_id}.pdf"):
+            if not os.path.exists(f"{download_path}/{comic_id}.zip"):
                 jmcomic.download_photo(comic_id, cls._option)
         except Exception as e:
             raise Exception(f"Failed to download photo: {e}")

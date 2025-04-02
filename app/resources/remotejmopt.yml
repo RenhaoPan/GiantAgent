@@ -14,12 +14,12 @@ dir_rule:
   # 此配置也支持引用环境变量，例如
   # base_dir: ${JM_DIR}/下载文件夹/
   base_dir: /home/mydata/jmfile/
-  rule: Bd_Pname
+  rule: Bd_Pindex
 download:
   cache: true
   image:
     decode: true
-    suffix: .jpg
+    suffix: null
   threading:
     image: 8
     photo: 4
@@ -77,10 +77,17 @@ plugins:
   after_photo:
     # 把章节的所有图片合并为一个pdf的插件
     # 使用前需要安装依赖库: [pip install img2pdf]
-    - plugin: img2pdf
+#    - plugin: img2pdf
+#      kwargs:
+#        pdf_dir: /home/mydata/jmfile/ # pdf存放文件夹
+#        filename_rule: Pid # pdf命名规则，P代表photo, id代表使用photo.id也就是章节id
+    # long_img_batch插件是把批量将所有图片合并为一个png长图，效果和img2pdf类似
+    - plugin: long_img_batch
       kwargs:
-        pdf_dir: /home/mydata/jmfile/ # pdf存放文件夹
-        filename_rule: Pid # pdf命名规则，P代表photo, id代表使用photo.id也就是章节id
+        img_dir: /home/mydata/jmfile/
+        filename_rule: Pid
+        batch_size: 20
+        delete_original_file: false
 
     # img2pdf也支持合并整个本子，把上方的after_photo改为after_album即可。
     # https://github.com/hect0x7/JMComic-Crawler-Python/discussions/258

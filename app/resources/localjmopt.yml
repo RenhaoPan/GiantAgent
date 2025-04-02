@@ -14,7 +14,7 @@ dir_rule:
   # 此配置也支持引用环境变量，例如
   # base_dir: ${JM_DIR}/下载文件夹/
   base_dir: D:/projects/GiantAgent/test/
-  rule: Bd_Pname
+  rule: Bd_Pindex
 download:
   cache: true
   image:
@@ -75,13 +75,31 @@ plugins:
         at_least_image_count: 2 # 至少要有多少张图，才下载此章节
 
   after_photo:
+    - plugin: zip # 压缩文件插件
+      kwargs:
+        level: photo # 按照章节，一个章节一个压缩文件
+        # level 也可以配成 album，表示一个本子对应一个压缩文件，该压缩文件会包含这个本子的所有章节
+
+        filename_rule: Pid # 压缩文件的命名规则
+        # 请注意⚠ [https://github.com/hect0x7/JMComic-Crawler-Python/issues/223#issuecomment-2045227527]
+        # filename_rule和level有对应关系
+        # 如果level=[photo], filename_rule只能写Pxxx
+        # 如果level=[album], filename_rule只能写Axxx
+
+        zip_dir: D:/projects/GiantAgent/test/ # 压缩文件存放的文件夹
+        delete_original_file: false # 压缩成功后，删除所有原文件和文件夹
     # 把章节的所有图片合并为一个pdf的插件
     # 使用前需要安装依赖库: [pip install img2pdf]
-    - plugin: img2pdf
-      kwargs:
-        pdf_dir: D:/projects/GiantAgent/test/ # pdf存放文件夹
-        filename_rule: Pid # pdf命名规则，P代表photo, id代表使用photo.id也就是章节id
-
+#    - plugin: img2pdf
+#      kwargs:
+#        pdf_dir: D:/projects/GiantAgent/test/ # pdf存放文件夹
+#        filename_rule: Pid # pdf命名规则，P代表photo, id代表使用photo.id也就是章节id
+#    - plugin: long_img_batch
+#      kwargs:
+#        img_dir: D:/projects/GiantAgent/test/
+#        filename_rule: Pid
+#        batch_size: 20
+#        delete_original_file: false
     # img2pdf也支持合并整个本子，把上方的after_photo改为after_album即可。
     # https://github.com/hect0x7/JMComic-Crawler-Python/discussions/258
     # 配置到after_album时，需要修改filename_rule参数，不能写Pxx只能写Axx示例如下

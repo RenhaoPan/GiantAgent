@@ -9,4 +9,11 @@ smtp:
   msg_from: "770391423@qq.com"
   password: "ossztsmsqthfbbbh"
   text: "jmcomic finished !!!"
-  file_path: "D:/projects/GiantAgent/test/"
+  file_path: "D:/projects/GiantAgent/test"
+
+minio:
+  endpoint:  "8.133.196.106:9000"
+  access_key: "panrenhao"
+  secret_key: "panrenhao"
+  secure: false
+  bucket_name: "jmoss"
