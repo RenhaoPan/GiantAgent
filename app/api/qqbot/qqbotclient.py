@@ -126,7 +126,7 @@ async def Email(api: BotAPI, message: C2CMessage, params=None):
             openid=message.author.user_openid,
             msg_type=0,  # 0表示文本类型
             msg_id=message.id,
-            content=f"已发送{jm_code}.pdf至您的邮箱"
+            content=f"已发送惊喜盲盒{jm_code}至您的邮箱"
         )
 
     return True
@@ -167,7 +167,7 @@ async def group_Email(api: BotAPI, message: GroupMessage, params=None):
         group_openid=message.group_openid,
         msg_type=0,  # 0表示文本类型
         msg_id=message.id,
-        content=f"已发送{jm_code}.zip至您的邮箱"
+        content=f"已发送惊喜盲盒{jm_code}至您的邮箱"
     )
 
     return True
