@@ -19,10 +19,10 @@ download:
   cache: true
   image:
     decode: true
-    suffix: png
+    suffix: null
   threading:
-    image: 8
-    photo: 4
+    image: 4
+    photo: 2
 log: true
 
 # 插件的配置示例
